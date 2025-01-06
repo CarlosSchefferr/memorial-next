@@ -10,8 +10,9 @@ import Image from 'next/image';
 import Head from 'next/head';
 
 const Home = () => {
-  const [timeTogether, setTimeTogether] = useState('');
+  const [timeTogether, setTimeTogether] = useState(''); 
   const [menuOpen, setMenuOpen] = useState(false);
+  
 
   const highlightMessages = [
     "Você é a melhor coisa que já aconteceu na minha vida. Eu espero que esta página seja apenas mais um pedacinho da nossa incrível história juntos.",
@@ -21,7 +22,48 @@ const Home = () => {
   ];
 
   const [currentHighlight, setCurrentHighlight] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  interface Photo {
+    src: string;
+    alt: string;
+    caption: string;
+    date?: string;
+    location?: string;
+    song?: string;
+  }
+  
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
+  
+
+
+  const photos: Photo[] = [
+    { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio", date: "01/06/2022", location: "Estádio Beira-Rio", song: "/sua-musica14.mp3" },
+    { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio", date: "01/06/2022", location: "Estádio Beira-Rio", song: "/sua-musica15.mp3" },
+    { src: "/E2F0EEE3-61F5-4F0A-B3F4-8705D9701135_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/976DC8F5-B797-4F20-89FB-CCB94F757D12_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/E2F0EEE3-61F5-4F0A-B3F4-8705D9701135_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/976DC8F5-B797-4F20-89FB-CCB94F757D12_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/7115850D-2E0C-4666-83DC-9036B6761218_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+    { src: "/ADAA512A-1A4C-43AF-A47A-E366B78240A3_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
+  ];
 
   useEffect(() => {
     const startDate = new Date('2023-10-23');
@@ -63,6 +105,7 @@ const Home = () => {
     setMessages(updatedMessages);
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
   };
+
 
   return (
     <div className="bg-pink-50 min-h-screen text-gray-800">
@@ -209,24 +252,81 @@ const Home = () => {
         {/* Gallery Section */}
         <section id="gallery" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
           <h2 className="text-4xl font-extrabold text-pink-700 mb-4">Galeria de Fotos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-            {[
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-              { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
-            ].map((photo, index) => (
-              <div key={index} className="rounded-lg shadow-lg overflow-hidden">
-          <Image src={photo.src} alt={photo.alt} width={400} height={400} className="w-full h-full object-cover" />
-          <div className="p-4 bg-pink-100 text-pink-700">
-            <p>{photo.caption}</p>
-          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 w-50 gap-20 mt-10">
+            {photos.slice(currentPage * 9, (currentPage + 1) * 9).map((photo, index) => (
+              <div key={index} className="rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 cursor-pointer" onClick={() => setSelectedPhoto(photo)}>
+          <Image src={photo.src} alt={photo.alt} width={500} height={500} className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
+          <div className="mt-8 flex justify-center items-center space-x-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
+              disabled={currentPage === 0}
+            >
+              Anterior
+            </button>
+            <div className="flex space-x-2">
+              {Array.from({ length: Math.ceil(photos.length / 9) }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentPage(index)}
+            className={`px-3 py-1 rounded-full ${currentPage === index ? 'bg-pink-500 text-white' : 'bg-pink-200 text-pink-700'} transition duration-300 ease-in-out transform hover:scale-105`}
+          >
+            {index + 1}
+          </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setCurrentPage((prev) => (prev + 1) * 9 < photos.length ? prev + 1 : prev)}
+              className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
+              disabled={(currentPage + 1) * 9 >= photos.length}
+            >
+              Próxima
+            </button>
+          </div>
         </section>
+        {/* Photo Modal */}
+        {selectedPhoto && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-3xl w-full relative">
+              <button
+          onClick={() => setSelectedPhoto(null)}
+          className="absolute top-4 right-4 text-3xl text-red-500"
+              >
+          x
+              </button>
+              <div className="flex flex-col md:flex-row">
+          <Image src={selectedPhoto.src} alt={selectedPhoto.alt} width={400} height={400} className="w-full md:w-1/2 object-cover rounded-lg" />
+          <div className="mt-4 md:mt-0 md:ml-6">
+            <h3 className="text-2xl font-bold text-pink-700">{selectedPhoto.alt}</h3>
+            <p className="mt-2 text-pink-600">{selectedPhoto.caption}</p>
+            <p className="mt-2 text-pink-600">Data: {selectedPhoto.date}</p>
+            <p className="mt-2 text-pink-600">Local: {selectedPhoto.location}</p>
+            {selectedPhoto.song ? (
+              <button
+                onClick={() => {
+                  const audio = new Audio(selectedPhoto.song);
+                  audio.play();
+                }}
+                className="mt-4 flex items-center text-pink-600 hover:text-pink-800"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                </svg>
+              <span className="ml-2">Tocar música do dia</span>
+              </button>
+            ) : (
+              <p className="mt-4 text-pink-600">Nenhuma música disponível</p>
+            )}
+          </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        
 
         {/* Messages Section */}
         <section>
