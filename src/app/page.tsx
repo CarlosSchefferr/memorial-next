@@ -180,7 +180,7 @@ const Home = () => {
   <div className="w-full border-t-4 border-dashed border-pink-500 mt-16" />
 
   {/* Highlight Section */}
-  <section id="highlight" className="relative z-10 mt-12 max-w-xl mx-auto bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg">
+  <section id="highlight" className="relative z-10 mt-12 max-w-3xl mx-auto bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg">
     <p className="text-2xl text-pink-700 font-semibold transition-opacity duration-500 ease-in-out" key={currentHighlight}>
       {highlightMessages[currentHighlight]}
     </p>
