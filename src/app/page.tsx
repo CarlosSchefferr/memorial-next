@@ -85,25 +85,25 @@ const Home = () => {
   }, []);
 
   // Messages (Post-its)
-  const [messages, setMessages] = useState<string[]>([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [dreams, setDreams] = useState<string[]>([]);
+  const [newDream, setNewDream] = useState('');
 
   useEffect(() => {
-    const savedMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-    setMessages(savedMessages);
+    const savedDreams = JSON.parse(localStorage.getItem('dreams') || '[]');
+    setDreams(savedDreams);
   }, []);
 
-  const addMessage = () => {
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
-    setNewMessage('');
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+  const addDream = () => {
+    const updatedDreams = [...dreams, newDream];
+    setDreams(updatedDreams);
+    setNewDream('');
+    localStorage.setItem('dreams', JSON.stringify(updatedDreams));
   };
 
-  const removeMessage = (index: number) => {
-    const updatedMessages = messages.filter((_, i) => i !== index);
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+  const removeDream = (index: number) => {
+    const updatedDreams = dreams.filter((_, i) => i !== index);
+    setDreams(updatedDreams);
+    localStorage.setItem('dreams', JSON.stringify(updatedDreams));
   };
 
 
@@ -129,10 +129,9 @@ const Home = () => {
           <div className={`absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition duration-300 ease-in-out transform ${menuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} origin-top-right`}>
             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <a href="#timer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#timer')?.scrollIntoView({ behavior: 'smooth' }); }}>Tempo Juntos</a>
-            <a href="#gallery" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#gallery')?.scrollIntoView({ behavior: 'smooth' }); }}>Galeria de Fotos</a>
-            <a href="#messages" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#messages')?.scrollIntoView({ behavior: 'smooth' }); }}>Mensagens</a>
             <a href="#about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }); }}>Sobre</a>
-            <a href="#thanks" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#thanks')?.scrollIntoView({ behavior: 'smooth' }); }}>Agradecimento</a>
+            <a href="#gallery" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#gallery')?.scrollIntoView({ behavior: 'smooth' }); }}>Galeria de Fotos</a>
+            <a href="#dreams" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#dreams')?.scrollIntoView({ behavior: 'smooth' }); }}>Sonhos</a>
             </div>
           </div>
         </div>
@@ -252,7 +251,7 @@ const Home = () => {
         {/* Gallery Section */}
         <section id="gallery" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
           <h2 className="text-4xl font-extrabold text-pink-700 mb-4">Galeria de Fotos</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 w-50 gap-20 mt-10">
+          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 w-50 gap-5 mt-10">
             {photos.slice(currentPage * 9, (currentPage + 1) * 9).map((photo, index) => (
               <div key={index} className="rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 cursor-pointer" onClick={() => setSelectedPhoto(photo)}>
           <Image src={photo.src} alt={photo.alt} width={500} height={500} className="w-full h-full object-cover" />
@@ -328,41 +327,54 @@ const Home = () => {
 
         
 
-        {/* Messages Section */}
-        <section>
-          <h2 className="text-2xl font-semibold text-center">Mensagens (Post-its)</h2>
-          <div id='messages' className="mt-4 flex flex-col items-center">
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Escreva algo especial..."
-              className="w-full max-w-lg border rounded-lg p-4 shadow focus:outline-none focus:ring-2 focus:ring-pink-400"
-            />
+      {/* Dreams Section */}
+      <section id="dreams" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
+        <h2 className="text-4xl font-extrabold text-pink-700 mb-6">Nossos Sonhos</h2>
+        <div className="mt-4 flex flex-col items-center">
+          <textarea
+        value={newDream}
+        onChange={(e) => setNewDream(e.target.value)}
+        placeholder="Escreva um sonho especial..."
+        className="w-full max-w-lg border-2 border-pink-300 rounded-lg p-4 shadow focus:outline-none focus:ring-2 focus:ring-pink-400"
+          />
+          <button
+        onClick={addDream}
+        className="mt-4 bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 active:bg-pink-700 active:transform active:translate-y-1 transition duration-150 ease-in-out"
+          >
+        Adicionar Sonho
+          </button>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg relative border-2 border-dashed border-pink-400 w-full max-w-3xl mx-auto mt-6" style={{ backgroundImage: "url('/public/E2F0EEE3-61F5-4F0A-B3F4-8705D9701135_1_105_c.jpeg')", backgroundSize: "cover", fontFamily: "'Permanent Marker', cursive" }}>
+          <ol className="list-decimal list-inside text-left">
+        {dreams.map((dream, index) => (
+          <li key={index} className="relative mb-2">
+            {dream}
             <button
-              onClick={addMessage}
-              className="mt-4 bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600"
+          onClick={() => removeDream(index)}
+          className="absolute top-0 right-0 text-red-500 hover:text-red-700 transition duration-150 ease-in-out"
             >
-              Adicionar
+          ✕
             </button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
-            {messages.map((message, index) => (
-              <div key={index} className="bg-pink-100 p-4 rounded-lg shadow relative">
-                <p>{message}</p>
-                <button
-                  onClick={() => removeMessage(index)}
-                  className="absolute top-2 right-2 text-red-500"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+          </li>
+        ))}
+          </ol>
+        </div>
+      </section>
+
       </main>
 
       <footer className="bg-pink-200 py-4 text-center text-pink-700">
-        <p>Feito com ❤️ por Carlos Augusto</p>
+        <p className="text-lg">
+          Feito com ❤️ por{' '}
+          <a 
+        href="https://carlossdev.site/" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-pink-500 hover:text-white transition duration-300 ease-in-out"
+          >
+        Carlos Augusto
+          </a>
+        </p>
       </footer>
     </div>
   );
