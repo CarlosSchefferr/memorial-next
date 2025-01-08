@@ -8,6 +8,11 @@ if (typeof window !== 'undefined') {
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
+
+
+
 
 const Home = () => {
   const [timeTogether, setTimeTogether] = useState(''); 
@@ -39,7 +44,7 @@ const Home = () => {
 
   const photos: Photo[] = [
     { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio", date: "01/06/2022", location: "Estádio Beira-Rio", song: "/sua-musica14.mp3" },
-    { src: "/67420935-56C8-48CD-8088-287723B93612_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio", date: "01/06/2022", location: "Estádio Beira-Rio", song: "/sua-musica15.mp3" },
+    { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio", date: "01/06/2022", location: "Estádio Beira-Rio", song: "/sua-musica15.mp3" },
     { src: "/E2F0EEE3-61F5-4F0A-B3F4-8705D9701135_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
     { src: "/976DC8F5-B797-4F20-89FB-CCB94F757D12_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
     { src: "/632C39D7-9B74-4A30-A1B2-57FA6B940407_1_105_c.jpeg", alt: "Nós dois", caption: "1º Us mo no estádio Beira-Rio - 01/06/2022" },
@@ -106,6 +111,15 @@ const Home = () => {
     localStorage.setItem('dreams', JSON.stringify(updatedDreams));
   };
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duração das animações em milissegundos
+      easing: 'ease-in-out', // Estilo da animação
+      once: true, // Se as animações devem ocorrer apenas uma vez
+    });
+  }, []);
+
+
 
   return (
     <div className="bg-pink-50 min-h-screen text-gray-800">
@@ -114,34 +128,97 @@ const Home = () => {
         <meta name="description" content="Uma página especial para nós dois" />
       </Head>
 
-      <header className="bg-gradient-to-r from-pink-300 via-pink-400 to-pink-500 py-10 text-center">
-        <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">Nosso Memorial</h1>
-        <p className="mt-4 text-xl text-pink-100 font-light">Feito com amor e carinho</p>
-        <div className="mt-6">
-        <div className="relative inline-block text-left">
-        <div className="relative">
+      <header data-aos="fade-down" className="bg-gradient-to-r from-pink-300 via-pink-400 to-pink-500 py-12 text-center relative overflow-hidden">
+        <h1 data-aos="fade-left" className="text-5xl font-extrabold text-white drop-shadow-lg mb-4 animate-pulse">Nosso Memorial</h1>
+        <p className="text-pink-100 text-xl font-light">Feito com amor e carinho</p>
+        
+        {/* Floating decorative elements */}
+        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 flex space-x-3 opacity-60">
+          {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="w-6 h-6 bg-white rounded-full animate-bounce transition delay-150"></div>
+          ))}
+        </div>
+
+        <div className="mt-8">
           <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="bg-white text-pink-500 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-pink-100 transition duration-300 ease-in-out transform hover:scale-105"
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="bg-white text-pink-600 font-semibold py-2 px-5 rounded-full shadow-lg hover:bg-pink-100 hover:text-pink-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
           >
-          Explorar
+        Explorar
           </button>
-          <div className={`absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition duration-300 ease-in-out transform ${menuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} origin-top-right`}>
-            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <a href="#timer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#timer')?.scrollIntoView({ behavior: 'smooth' }); }}>Tempo Juntos</a>
-            <a href="#about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }); }}>Sobre</a>
-            <a href="#gallery" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#gallery')?.scrollIntoView({ behavior: 'smooth' }); }}>Galeria de Fotos</a>
-            <a href="#dreams" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100" role="menuitem" onClick={(e) => { e.preventDefault(); document.querySelector('#dreams')?.scrollIntoView({ behavior: 'smooth' }); }}>Sonhos</a>
-            </div>
-          </div>
+          {menuOpen && (
+        <div
+          className="mt-4 mx-auto w-56 bg-white rounded-xl shadow-2xl p-4 animate-fadeInUp transition-transform duration-500"
+          style={{ transformOrigin: 'top center' }}
+        >
+          <a
+            href="#timer"
+            className="block px-4 py-2 text-sm text-gray-800 hover:bg-pink-100 rounded transition-colors"
+            onClick={(e) => {
+          e.preventDefault();
+          document.querySelector('#timer')?.scrollIntoView({ behavior: 'smooth' });
+          setMenuOpen(false);
+            }}
+          >
+            Tempo Juntos
+          </a>
+          <a
+            href="#about"
+            className="block px-4 py-2 text-sm text-gray-800 hover:bg-pink-100 rounded transition-colors"
+            onClick={(e) => {
+          e.preventDefault();
+          document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+          setMenuOpen(false);
+            }}
+          >
+            Sobre
+          </a>
+          <a
+            href="#gallery"
+            className="block px-4 py-2 text-sm text-gray-800 hover:bg-pink-100 rounded transition-colors"
+            onClick={(e) => {
+          e.preventDefault();
+          document.querySelector('#gallery')?.scrollIntoView({ behavior: 'smooth' });
+          setMenuOpen(false);
+            }}
+          >
+            Galeria de Fotos
+          </a>
+          <a
+            href="#dreams"
+            className="block px-4 py-2 text-sm text-gray-800 hover:bg-pink-100 rounded transition-colors"
+            onClick={(e) => {
+          e.preventDefault();
+          document.querySelector('#dreams')?.scrollIntoView({ behavior: 'smooth' });
+          setMenuOpen(false);
+            }}
+          >
+            Sonhos
+          </a>
         </div>
+          )}
         </div>
-        </div>
+
+        <style jsx>{`
+          @keyframes fadeInUp {
+            0% {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fadeInUp {
+            animation: fadeInUp 1s ease-in-out forwards;
+          }
+        `}</style>
       </header>
     
       <main className="p-6 space-y-12">
         {/* Timer Section */}
-        <section id="timer" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
+        <section data-aos="fade-right" id="timer" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
           <h2 className="text-4xl font-extrabold text-pink-700 mb-4">Tempo Juntos</h2>
           <div className="mt-6 flex justify-center">
             <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center mx-2">
@@ -161,131 +238,140 @@ const Home = () => {
 
   {/* About Section */}
   <section
-   id="about"
-   className="relative py-20 bg-gradient-to-b from-pink-200 via-pink-100 to-pink-300 overflow-hidden"
+    data-aos="fade-left"
+    id="about"
+    className="relative py-10 sm:py-16 bg-gradient-to-b from-pink-200 via-pink-100 to-pink-300 overflow-hidden rounded-lg shadow-lg"
   >
-  <div className="max-w-4xl mx-auto text-center relative z-10">
-   <h2 className="text-5xl font-extrabold text-pink-700 mb-6">
-    Sobre Nós 
-   </h2>
-   <div className="text-lg leading-relaxed text-pink-800">
-    <p>
-      Bem-vindo(a) ao nosso cantinho especial, criado com todo o amor do
-      mundo só para nós dois!
-    </p>
-    <p className="mt-4">
-      Aqui, vamos eternizar nossos momentos mais preciosos: fotos, mensagens
-      e todas as coisas que fazem nosso amor tão único.
-    </p>
-    <p className="mt-6 text-2xl font-semibold text-pink-600">
-      Você é minha razão de viver, meu mundo, meu tudo! 🌸
-    </p>
-   </div>
-  </div>
+    <div className="max-w-md sm:max-w-4xl mx-auto text-center px-4 sm:px-6 relative z-10">
+      <h2 className="text-4xl sm:text-5xl font-extrabold text-pink-700 mb-6">Sobre</h2>
+      <div className="text-base sm:text-lg leading-relaxed text-pink-800 space-y-4">
+        <p>
+          Bem-vindo(a) ao nosso cantinho especial, criado com todo o amor do
+          mundo só para nós dois!
+        </p>
+        <p>
+          Aqui, vamos eternizar nossos momentos mais preciosos: fotos, mensagens
+          e todas as coisas que fazem nosso amor tão único.
+        </p>
 
-  {/* Floating Hearts */}
-<div className="absolute inset-0 overflow-hidden">
-  {Array.from({ length: 29 }).map((_, i) => (
-    <svg
-      key={i}
-      className={`heart absolute w-8 h-8 text-white`}
-      style={{
-      top: `${(Math.sin(i * 0.3) * 40 + 50)}vh`, // Utilizando o seno para uma distribuição mais suave
-      left: `${(Math.cos(i * 0.5) * 40 + 50)}vw`, // Utilizando o cosseno para variação nas posições
-      animation: `float ${2 + (i % 3)}s ease-in-out infinite`, // Reduzindo o tempo de animação para uma movimentação mais rápida
-      animationDelay: `${i % 2}s`,
-      }}
-      fill="currentColor"
-      viewBox="0 0 24 24"
+      </div>
+    </div>
+
+    {/* Floating Hearts */}
+    <div className="absolute inset-0 overflow-hidden">
+      {Array.from({ length: 29 }).map((_, i) => (
+        <svg
+          key={i}
+          className="heart absolute w-6 h-6 sm:w-8 sm:h-8 text-white"
+          style={{
+            top: `${(Math.sin(i * 0.3) * 40 + 50)}vh`,
+            left: `${(Math.cos(i * 0.5) * 40 + 50)}vw`,
+            animation: `float ${2 + (i % 3)}s ease-in-out infinite`,
+            animationDelay: `${i % 2}s`,
+          }}
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+            2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 
+            2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 
+            22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 
+            11.54L12 21.35z" 
+          />
+        </svg>
+      ))}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+      `}</style>
+    </div>
+
+
+    {/* Decorative Divider */}
+    <div className="w-full border-t-4 border-dashed border-pink-500 mt-16" />
+    
+    <div className="flex justify-center mt-8">
+      <a className="text-2xl sm:text-1xl font-extrabold text-pink-700 ">Recadinhos...</a>
+    </div>
+
+    {/* Highlight Section */}
+    <section
+      id="highlight"
+      className="relative z-10 mt-12 max-w-md sm:max-w-3xl mx-auto bg-white bg-opacity-80 backdrop-blur-lg p-4 sm:p-8 rounded-lg shadow-lg text-center"
     >
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    </svg>
-  ))}
-  <style jsx>{`
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-  `}</style>
-</div>
-
-
-  {/* Decorative Borders */}
-  <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-r from-pink-300 via-white to-pink-300" />
-  <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-r from-pink-300 via-white to-pink-300" />
-
-  {/* Decorative Divider */}
-  <div className="w-full border-t-4 border-dashed border-pink-500 mt-16" />
-
-  {/* Highlight Section */}
-  <section id="highlight" className="relative z-10 mt-12 max-w-3xl mx-auto bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg">
-    <p className="text-2xl text-pink-700 font-semibold transition-opacity duration-500 ease-in-out" key={currentHighlight}>
+      <p
+      className="text-lg sm:text-2xl text-pink-700 font-semibold transition-opacity duration-500 ease-in-out"
+      key={currentHighlight}
+      >
       {highlightMessages[currentHighlight]}
-    </p>
-    <p className="mt-4 text-pink-600 font-light italic">Com todo o meu amor, sempre. 💕</p>
-    <div className="mt-4 flex justify-center space-x-4">
+      </p>
+      <p className="mt-2 sm:mt-4 text-pink-600 font-light italic">Com todo o meu amor, sempre. 💕</p>
+      <div className="mt-2 sm:mt-4 flex justify-center space-x-2 sm:space-x-4">
       <button
         onClick={() => setCurrentHighlight((prev) => (prev - 1 + highlightMessages.length) % highlightMessages.length)}
-        className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600"
+        className="bg-pink-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-pink-600"
       >
         Anterior
       </button>
       <button
         onClick={() => setCurrentHighlight((prev) => (prev + 1) % highlightMessages.length)}
-        className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600"
+        className="bg-pink-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-pink-600"
       >
         Próxima
       </button>
-    </div>
-  </section>
+      </div>
+    </section>
   </section>
 
-        {/* Thanks Section */}
 
 
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
-          <h2 className="text-4xl font-extrabold text-pink-700 mb-4">Galeria de Fotos</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 w-50 gap-5 mt-10">
-            {photos.slice(currentPage * 9, (currentPage + 1) * 9).map((photo, index) => (
+        <section data-aos="fade-right" id="gallery" className="py-10 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
+          <h2 className="text-3xl font-extrabold text-pink-700 mb-4">Galeria de Fotos</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6">
+            {photos.slice(currentPage * 4, (currentPage + 1) * 4).map((photo, index) => (
               <div key={index} className="rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 cursor-pointer" onClick={() => setSelectedPhoto(photo)}>
-          <Image src={photo.src} alt={photo.alt} width={500} height={500} className="w-full h-full object-cover" />
+          <Image src={photo.src} alt={photo.alt} width={1000} height={1000} className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
-          <div className="mt-8 flex justify-center items-center space-x-4">
+          <div className="mt-6 flex justify-center items-center space-x-2">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-              className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-pink-500 text-white px-3 py-1 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
               disabled={currentPage === 0}
             >
               Anterior
             </button>
-            <div className="flex space-x-2">
-              {Array.from({ length: Math.ceil(photos.length / 9) }).map((_, index) => (
+            <div className="flex space-x-1">
+              {Array.from({ length: Math.ceil(photos.length / 8) }).map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPage(index)}
-            className={`px-3 py-1 rounded-full ${currentPage === index ? 'bg-pink-500 text-white' : 'bg-pink-200 text-pink-700'} transition duration-300 ease-in-out transform hover:scale-105`}
+            className={`px-2 py-1 rounded-full ${currentPage === index ? 'bg-pink-500 text-white' : 'bg-pink-200 text-pink-700'} transition duration-300 ease-in-out transform hover:scale-105`}
           >
             {index + 1}
           </button>
               ))}
             </div>
             <button
-              onClick={() => setCurrentPage((prev) => (prev + 1) * 9 < photos.length ? prev + 1 : prev)}
-              className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
-              disabled={(currentPage + 1) * 9 >= photos.length}
+              onClick={() => setCurrentPage((prev) => (prev + 1) * 8 < photos.length ? prev + 1 : prev)}
+              className="bg-pink-500 text-white px-3 py-1 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out transform hover:scale-105"
+              disabled={(currentPage + 1) * 8 >= photos.length}
             >
               Próxima
             </button>
           </div>
         </section>
+
+
         {/* Photo Modal */}
         {selectedPhoto && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -328,7 +414,7 @@ const Home = () => {
         
 
       {/* Dreams Section */}
-      <section id="dreams" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
+      <section data-aos="fade-left" id="dreams" className="py-20 bg-gradient-to-b from-pink-100 via-pink-200 to-pink-300 text-center rounded-lg shadow-lg">
         <h2 className="text-4xl font-extrabold text-pink-700 mb-6">Nossos Sonhos</h2>
         <div className="mt-4 flex flex-col items-center">
           <textarea
@@ -376,6 +462,12 @@ const Home = () => {
           </a>
         </p>
       </footer>
+
+      
+
+      <script>
+          AOS.init();
+      </script>
     </div>
   );
 };
